@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from tracker.views import index,deleteTransaction,register_person,login_person
+from tracker.views import index,deleteTransaction,register_person,login_person,logout_person
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',index,name='index'),
+    path('', index, name='index'),
     path('deleteTransaction/<uuid:uuid>/', deleteTransaction, name='deleteTransaction'),
-    path('register_person/',register_person,name = 'register_person'),
-    path('login_person/',login_person,name = 'login_person'),
+    path('register_person/', register_person, name='register_person'),
+    path('login_person/', login_person, name='login_person'),
+    path('logout/', logout_person, name='logout_person'),  # Changed to 'logout/'
 ]

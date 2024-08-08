@@ -4,7 +4,7 @@ from tracker.models import *
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.db.models import Q
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 # Create your views here.
 
 
@@ -62,6 +62,13 @@ def login_person(request):
         return redirect('/')
     
     return render(request,'login.html')
+
+
+def logout_person(request):
+    logout(request)
+    messages.success(request, "Success : User Logout")
+    return redirect('/login_person/')
+    
 
 def index(request):
     if request.method =="POST":
