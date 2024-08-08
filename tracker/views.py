@@ -4,6 +4,7 @@ from tracker.models import *
 from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.contrib.auth import authenticate,login
 # Create your views here.
 
 
@@ -35,10 +36,32 @@ def register_person(request):
         )
         user_obj.set_password(password)
         user_obj.save()
-        messages.error(request, "Success: Account Created.")
+        messages.success(request, "Success: Account Created.")
         return redirect('/register_person/')
 
     return render(request,'register.html')
+
+def login_person(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user_obj = User.objects.filter(username=username)
+
+        if not user_obj.exists():
+            messages.error(request, "Error : Username does not Exists ")
+            return redirect('/login_person/')
+        
+        user_obj = authenticate(username = username, password = password)
+
+        if not user_obj:
+            messages.error(request, "Error : Invalid Credentials ")
+            return redirect('/login_person/')
+        
+        login(request,user_obj)
+        return redirect('/')
+    
+    return render(request,'login.html')
 
 def index(request):
     if request.method =="POST":
