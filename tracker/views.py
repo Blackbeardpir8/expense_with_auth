@@ -91,6 +91,7 @@ def index(request):
         Transactions.objects.create(
             description = description,
             amount = amount,
+            created_by = request.user
         )
 
         messages.success(request, "Transaction added successfully!")
@@ -98,10 +99,10 @@ def index(request):
         
 
     
-    context = {'transactions' : Transactions.objects.all(),
-               'balance' : Transactions.objects.all().aggregate(total_balance = Sum('amount'))['total_balance'] or 0,
-               'income' : Transactions.objects.filter(amount__gte = 0).aggregate(income = Sum('amount'))['income'] or 0,
-               'expense' : Transactions.objects.filter(amount__lte = 0).aggregate(expense = Sum('amount'))['expense'] or 0,
+    context = {'transactions' : Transactions.objects.filter(created_by = request.user),
+               'balance' : Transactions.objects.filter(created_by = request.user).aggregate(total_balance = Sum('amount'))['total_balance'] or 0,
+               'income' : Transactions.objects.filter(created_by = request.user, amount__gte = 0).aggregate(income = Sum('amount'))['income'] or 0,
+               'expense' : Transactions.objects.filter(created_by = request.user,amount__lte = 0).aggregate(expense = Sum('amount'))['expense'] or 0,
                }
 
     return render(request,'index.html',context)
