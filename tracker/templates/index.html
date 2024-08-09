@@ -71,9 +71,9 @@
 
 {% if messages %}
 <script>
-    {% for message in messages %}
-    alert("{{ message }}")
-    {% endfor %}
+{% for message in messages %}
+alert("{{ message }}")
+{% endfor %}
 </script>
 
 {% endif %}

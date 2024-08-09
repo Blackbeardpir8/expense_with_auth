@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -69,7 +70,7 @@ def logout_person(request):
     messages.success(request, "Success : User Logout")
     return redirect('/login_person/')
     
-
+@login_required
 def index(request):
     if request.method =="POST":
         description = request.POST.get('description')
@@ -105,7 +106,7 @@ def index(request):
 
     return render(request,'index.html',context)
 
-
+@login_required
 def deleteTransaction(request,uuid):
 
     Transactions.objects.get(uuid = uuid).delete()
