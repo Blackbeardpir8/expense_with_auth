@@ -70,7 +70,7 @@ def logout_person(request):
     messages.success(request, "Success : User Logout")
     return redirect('/login_person/')
     
-@login_required
+@login_required(login_url='/login_person/')
 def index(request):
     if request.method =="POST":
         description = request.POST.get('description')
@@ -106,7 +106,7 @@ def index(request):
 
     return render(request,'index.html',context)
 
-@login_required
+@login_required(login_url='/login_person/')
 def deleteTransaction(request,uuid):
 
     Transactions.objects.get(uuid = uuid).delete()
