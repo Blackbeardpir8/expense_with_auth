@@ -136,21 +136,48 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Define the path for the log file
+LOG_FILE_PATH = os.path.join(BASE_DIR, 'logs', 'django.log')
+
+# Ensure the logs directory exists
+os.makedirs(os.path.dirname(LOG_FILE_PATH), exist_ok=True)
+
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
         },
-        'file' : {
-            'level' : 'ERROR',
-            'class' : 'logging.FileHandler',
-            'filename' : os.path.join(BASE_DIR,'error.log')
-        }
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
     },
-    "root": {
-        "handlers": ["console",'file'],
-        "level": "DEBUG",
+    'handlers': {
+        'console': {
+            'level': 'WARNING',  # Adjust this as needed
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': LOG_FILE_PATH,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',  # Adjust this as needed
+            'propagate': True,
+        },
+        '': {  # Root logger for your application
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',  # Adjust this as needed
+            'propagate': True,
+        },
     },
 }
