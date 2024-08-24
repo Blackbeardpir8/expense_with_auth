@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+import logging
+logger = logging.getLogger(__name__)
 # Create your views here.
 
 
@@ -43,6 +45,12 @@ def register_person(request):
     return render(request,'register.html')
 
 def login_person(request):
+    logger.debug("This is a debug Message")
+    logger.info("This is a info Message")
+    logger.warning("This is a warning Message")
+    logger.error("This is a error Message")
+    logger.critical("This is a critical Message")
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
