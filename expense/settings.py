@@ -143,9 +143,14 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
         },
+        'file' : {
+            'level' : 'ERROR',
+            'class' : 'logging.FileHandler',
+            'filename' : os.path.join(BASE_DIR,'error.log')
+        }
     },
     "root": {
-        "handlers": ["console"],
-        "level": "WARNING",
+        "handlers": ["console",'file'],
+        "level": "DEBUG",
     },
 }
